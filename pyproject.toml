@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "caj2pdf-restructured"
-version = "0.1.0"
+version = "0.1.0-alpha1"
 description = "caj2pdf 重新组织，方便打包与安装"
 authors = [
     "Hin-Tak Leung <htl10@users.sourceforge.net>",
@@ -8,10 +8,19 @@ authors = [
 ]
 maintainers = ["zombie110year <zombie110year@outlook.com>"]
 license = "GLWTPL"
+repository = "https://github.com/zombie110year/caj2pdf-restructured/"
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+]
+keywords = ["cnki", "caj", "pdf"]
+readme = "README.md"
+
 
 packages = [{ include = "caj2pdf" }]
 build = "build.py"
-exclude = ["caj2pdf/dep/bin/*.dll"]
+# exclude = ["caj2pdf/dep/bin/*.dll"]
 
 [tool.poetry.scripts]
 caj2pdf = "caj2pdf.cli:main"
