@@ -31,20 +31,21 @@
 #
 # - remove dependency on pdfrw
 
-import sys
-import os
-import zlib
 import argparse
-#from PIL import Image
-
+import logging
+import os
+import platform
+import struct
+import sys
+import zlib
 # TiffImagePlugin.DEBUG = True
 from datetime import datetime
 #from jp2 import parsejp2
 from enum import Enum
 from io import BytesIO
-import logging
-import struct
-import platform
+
+#from PIL import Image
+
 
 PY3 = sys.version_info[0] >= 3
 
@@ -647,7 +648,7 @@ class pdfdoc(object):
     ):
         if with_pdfrw:
             try:
-                from pdfrw import PdfWriter, PdfDict, PdfName, PdfString
+                from pdfrw import PdfDict, PdfName, PdfString, PdfWriter
 
                 self.with_pdfrw = True
             except ImportError:
@@ -1170,7 +1171,7 @@ class pdfdoc(object):
 
     def tostream(self, outputstream):
         if self.with_pdfrw:
-            from pdfrw import PdfDict, PdfName, PdfArray, PdfObject
+            from pdfrw import PdfArray, PdfDict, PdfName, PdfObject
         else:
             PdfDict = MyPdfDict
             PdfName = MyPdfName
@@ -2057,7 +2058,7 @@ def get_fixed_dpi_layout_fun(fixed_dpi):
 def find_scale(pagewidth, pageheight):
     """Find the power of 10 (10, 100, 1000...) that will reduce the scale
     below the PDF specification limit of 14400 PDF units (=200 inches)"""
-    from math import log10, ceil
+    from math import ceil, log10
 
     major = max(pagewidth, pageheight)
     oversized = major / 14400.0

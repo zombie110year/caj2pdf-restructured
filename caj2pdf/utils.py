@@ -1,12 +1,8 @@
 import os
 import sys
-import struct
-import PyPDF2.generic as PDF
-try:
-    from PyPDF2 import PdfWriter, PdfReader
-except ImportError:
-    from PyPDF2 import PdfFileWriter as PdfWriter
-    from PyPDF2 import PdfFileReader as PdfReader
+
+import PyPDF2.pdf as PDF
+from PyPDF2 import PdfFileReader, PdfFileWriter
 
 
 class Node(object):

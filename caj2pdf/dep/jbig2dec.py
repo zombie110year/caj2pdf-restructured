@@ -10,21 +10,25 @@
 #      cc -Wall `pkg-config --cflags poppler`  -fPIC -shared -o libjbig2codec.so decode_jbig2data.cc   `pkg-config --libs poppler`
 #
 #      cc -Wall `pkg-config --cflags jbig2dec` -fPIC -shared -o libjbig2codec.so decode_jbig2data_x.cc `pkg-config --libs jbig2dec`
+#
+#  NOTE(zombie110year,2021/04/20): in this project, just compile them with script file `build.py`
 
-
-from ctypes import *
-import struct
-
+import importlib.resources
 import platform
+import struct
+from ctypes import *
 
 arch = platform.architecture()
 if (arch[1] == 'WindowsPE'):
     if (arch[0] == '64bit'):
-        libjbig2codec = cdll.LoadLibrary("./lib/bin/libjbig2codec-w64.dll")
+        with importlib.resources.path(__package__, "bin/libjbig2codec-w64.dll") as dll:
+            libjbig2codec = cdll.LoadLibrary(str(dll))
     else:
-        libjbig2codec = cdll.LoadLibrary("./lib/bin/libjbig2codec-w32.dll")
+        with importlib.resources.path(__package__, "bin/libjbig2codec-w32.dll") as dll:
+            libjbig2codec = cdll.LoadLibrary(str(dll))
 else:
-    libjbig2codec = cdll.LoadLibrary("./libjbig2codec.so")
+    with importlib.resources.path(__package__, "bin/libjbig2codec.so") as so:
+        libjbig2codec = cdll.LoadLibrary(so)
 
 decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
 
@@ -46,7 +50,8 @@ class CImage:
         return out
 
 if __name__ == '__main__':
-    import sys, os
+    import os
+    import sys
 
     if len(sys.argv) < 3:
         print("Usage: %s input output" % sys.argv[0])
@@ -62,7 +67,8 @@ if __name__ == '__main__':
     # PBM is only padded to 8 rather than 32.
     # If the padding is larger, write padded file.
     if (cimage.bytes_per_line > ((cimage.width +7) >> 3)):
-        cimage.width = cimage.bytes_per_line << 3
+        #! bytes_per_line doesn't defined
+        cimage.width = bytes_per_line << 3
 
     with open(sys.argv[2], "wb") as fout:
         fout.write("P4\n".encode("ascii"))

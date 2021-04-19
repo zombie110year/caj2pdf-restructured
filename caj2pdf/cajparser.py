@@ -1,13 +1,9 @@
 import os
 import struct
 from shutil import copy
-from subprocess import check_output, STDOUT, CalledProcessError
-from utils import fnd, fnd_all, add_outlines, fnd_rvrs, fnd_unuse_no, find_redundant_images
+from subprocess import STDOUT, CalledProcessError, check_output
 
-try:
-    from PyPDF2 import errors
-except ImportError:
-    from PyPDF2 import utils as errors
+from .utils import add_outlines, fnd, fnd_all, fnd_rvrs, fnd_unuse_no
 
 KDH_PASSPHRASE = b"FZHMEI"
 
@@ -308,8 +304,9 @@ class CAJParser(object):
         caj = open(self.filename, "rb")
         image_list = []
 
-        from pdfwutils import Colorspace, ImageFormat, convert_ImageList
         import zlib
+
+        from pdfwutils import Colorspace, ImageFormat, convert_ImageList
 
         for i in range(self.page_num):
             caj.seek(self._TOC_END_OFFSET + i * 20)
@@ -373,7 +370,7 @@ class CAJParser(object):
                 image_data = caj.read(size_of_image_data)
                 current_offset = offset_to_image_data + size_of_image_data
                 if (image_type[image_type_enum] == "JBIG"):
-                    from jbigdec import CImage
+                    from .dep.jbigdec import CImage
                     cimage = CImage(image_data)
                     out = cimage.DecodeJbig()
                     # PBM is only padded to 8 rather than 32.
@@ -394,7 +391,7 @@ class CAJParser(object):
                         0
                     )
                 elif (image_type[image_type_enum] == "JBIG2"):
-                    from jbig2dec import CImage
+                    from .dep.jbig2dec import CImage
                     cimage = CImage(image_data)
                     out = cimage.DecodeJbig2()
                     # PBM is only padded to 8 rather than 32.
@@ -561,13 +558,13 @@ class CAJParser(object):
                     f.write(image_data)
                 if (image_type[image_type_enum] == "JBIG"):
                     try:
-                        from jbigdec import SaveJbigAsBmp
+                        from .dep.jbigdec import SaveJbigAsBmp
                         SaveJbigAsBmp(image_data, size_of_image_data, (image_name + ".bmp").encode('ascii'))
                     except ImportError:
                         pass
                 elif (image_type[image_type_enum] == "JBIG2"):
                     try:
-                        from jbigdec import SaveJbig2AsBmp
+                        from .dep.jbigdec import SaveJbig2AsBmp
                         SaveJbig2AsBmp(image_data, size_of_image_data, (image_name + ".bmp").encode('ascii'))
                     except ImportError:
                         pass

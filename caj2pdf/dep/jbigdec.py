@@ -13,20 +13,23 @@
 #
 #       cc -Wall -fPIC --shared -o libjbigdec.so jbigdec.cc JBigDecode.cc
 
-from ctypes import *
+import importlib.resources
 import os
-import struct
-
 import platform
+import struct
+from ctypes import *
 
 arch = platform.architecture()
 if (arch[1] == 'WindowsPE'):
     if (arch[0] == '64bit'):
-        libjbigdec = cdll.LoadLibrary("./lib/bin/libjbigdec-w64.dll")
+        with importlib.resources.path(__package__, "bin/libjbigdec-w64.dll") as dll:
+            libjbigdec = cdll.LoadLibrary(dll)
     else:
-        libjbigdec = cdll.LoadLibrary("./lib/bin/libjbigdec-w32.dll")
+        with importlib.resources.path(__package__, "bin/libjbigdec-w32.dll") as dll:
+            libjbigdec = cdll.LoadLibrary(dll)
 else:
-    libjbigdec = cdll.LoadLibrary("./libjbigdec.so")
+    with importlib.resources.path(__package__, "bin/libjbigdec.so") as so:
+        libjbigdec = cdll.LoadLibrary(so)
 
 #SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
 #SaveJbigAsBmp.restype = None
@@ -54,7 +57,8 @@ class CImage:
         return out
 
 if __name__ == '__main__':
-    import sys, os
+    import os
+    import sys
 
     if len(sys.argv) < 3:
         print("Usage: %s input output" % sys.argv[0])
