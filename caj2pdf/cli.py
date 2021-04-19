@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
-from cajparser import CAJParser
-from utils import add_outlines
+import os
 
-if __name__ == "__main__":
+from .cajparser import CAJParser
+from .utils import add_outlines
+
+
+def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help="commands", dest="command")
 
