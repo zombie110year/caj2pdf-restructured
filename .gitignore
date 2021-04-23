@@ -124,3 +124,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+!/tests/caj_src.caj
+!/tests/c8_src.caj
+!/tests/kdh_src.caj
+!/tests/hn_src.caj
