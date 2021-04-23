@@ -24,7 +24,7 @@
 
 #include <cstdint>
 #include <cstring>
-#include "jbig2.h"
+#include <jbig2.h>
 
 int decode_jbig2data(char*, int, char*, int, int, int, int);
 

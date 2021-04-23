@@ -10,7 +10,7 @@
       cc -Wall `pkg-config --cflags poppler` -fPIC -shared -o libjbig2codec.so decode_jbig2data.cc `pkg-config --libs poppler`
 */
 
-#include "JBIG2Stream.h"
+#include <JBIG2Stream.h>
 
 int decode_jbig2data(char*, int, char*, int, int, int, int);
 

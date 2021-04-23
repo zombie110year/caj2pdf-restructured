@@ -3,7 +3,7 @@ from pathlib import Path
 from platform import system
 from pprint import pprint
 from subprocess import PIPE, run
-from sys import exit
+from sys import exit, stderr
 from typing import Any, Dict
 
 basedir = Path(__file__).parent.absolute()
@@ -36,19 +36,17 @@ def build(setup_kwargs: Dict[str, Any]):
             build_poppler()
         else:
             build_jbig2dec()
-        setup_kwargs["package_data"]["caj2pdf.dep"] = []
     elif system() == "Windows":
         print("BUILD: {}".format(libjbigdec_32dll))
         print("BUILD: {}".format(libjbigdec_64dll))
         print("BUILD: {}".format(libjbig2codec_32dll))
         print("BUILD: {}".format(libjbig2codec_64dll))
-        setup_kwargs["package_data"]["caj2pdf.dep"] = ["bin/*.dll"]
     return setup_kwargs
 
 def build_poppler():
     dep_checker = run(["pkg-config", "--libs", "--cflags", "poppler"], stdout=PIPE)
     if dep_checker.returncode != 0:
-        print("poppler 未安装，请通过系统包管理器安装")
+        print("poppler 未安装，请通过系统包管理器安装", file=stderr)
         exit(-1)
 
     cmd_jbigdec = ["cc", "-Wall", "-fPIC", "-shared", "-o", libjbigdec_so, jbigdec_cc, JBigDecode_cc]
@@ -64,7 +62,7 @@ def build_poppler():
 def build_jbig2dec():
     dep_checker = run(["pkg-config", "--libs", "--cflags", "jbig2dec"], stdout=PIPE)
     if dep_checker.returncode != 0:
-        print("jbig2dec 未安装，请通过系统包管理器安装")
+        print("jbig2dec 未安装，请通过系统包管理器安装", file=stderr)
         exit(-1)
 
     cmd_jbigdec = ["cc", "-Wall", "-fPIC", "-shared", "-o", libjbigdec_so, jbigdec_cc, JBigDecode_cc]
