@@ -31,25 +31,19 @@
 
 ```sh
 # poppler 库
-sudo apt install build-essential poppler mupdf-tools
+sudo apt install build-essential libpoppler-dev mupdf-tools
 pip install caj2pdf-restructured
-
-# jbig2dec 库
-sudo apt install build-essential jbig2dec mupdf-tools
-LIBJBIG2DEC=1 pip install caj2pdf-restructured
 ```
 
 或使用 [pipx](https://github.com/pipxproject/pipx)
 
 ```sh
 # poppler 库
-sudo apt install build-essential poppler mupdf-tools
+sudo apt install build-essential libpoppler-dev mupdf-tools
 pipx install caj2pdf-restructured
-
-# jbig2dec 库
-sudo apt install build-essential jbig2dec mupdf-tools
-LIBJBIG2DEC=1 pipx install caj2pdf-restructured
 ```
+
+**注意**： jbig2dev 库在 Ubuntu/Debian 上的安装存在依赖问题，因此建议只使用 poppler 库。
 
 #### ArchLinux
 
