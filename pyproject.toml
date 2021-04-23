@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "caj2pdf-restructured"
-version = "0.1.0-alpha1"
+version = "0.1.0-alpha2"
 description = "caj2pdf 重新组织，方便打包与安装"
 authors = [
     "Hin-Tak Leung <htl10@users.sourceforge.net>",
