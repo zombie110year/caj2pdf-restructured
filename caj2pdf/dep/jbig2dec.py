@@ -21,14 +21,14 @@ from ctypes import *
 arch = platform.architecture()
 if (arch[1] == 'WindowsPE'):
     if (arch[0] == '64bit'):
-        with importlib.resources.path(__package__, "bin/libjbig2codec-w64.dll") as dll:
-            libjbig2codec = cdll.LoadLibrary(str(dll))
+        with importlib.resources.files(__package__) as pkg_dir:
+            libjbig2codec = cdll.LoadLibrary(str(pkg_dir / "bin/libjbig2codec-w64.dll"))
     else:
-        with importlib.resources.path(__package__, "bin/libjbig2codec-w32.dll") as dll:
-            libjbig2codec = cdll.LoadLibrary(str(dll))
+        with importlib.resources.files(__package__) as pkg_dir:
+            libjbig2codec = cdll.LoadLibrary(str(pkg_dir / "bin/libjbig2codec-w32.dll"))
 else:
-    with importlib.resources.path(__package__, "bin/libjbig2codec.so") as so:
-        libjbig2codec = cdll.LoadLibrary(so)
+    with importlib.resources.files(__package__) as pkg_dir:
+        libjbig2codec = cdll.LoadLibrary(pkg_dir / "bin/libjbig2codec.so")
 
 decode_jbig2data_c    = libjbig2codec.decode_jbig2data_c
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # If the padding is larger, write padded file.
     if (cimage.bytes_per_line > ((cimage.width +7) >> 3)):
         #! bytes_per_line doesn't defined
-        cimage.width = bytes_per_line << 3
+        cimage.width = cimage.bytes_per_line << 3
 
     with open(sys.argv[2], "wb") as fout:
         fout.write("P4\n".encode("ascii"))

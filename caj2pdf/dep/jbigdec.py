@@ -22,14 +22,14 @@ from ctypes import *
 arch = platform.architecture()
 if (arch[1] == 'WindowsPE'):
     if (arch[0] == '64bit'):
-        with importlib.resources.path(__package__, "bin/libjbigdec-w64.dll") as dll:
-            libjbigdec = cdll.LoadLibrary(dll)
+        with importlib.resources.files(__package__) as pkg_dir:
+            libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec-w64.dll")
     else:
-        with importlib.resources.path(__package__, "bin/libjbigdec-w32.dll") as dll:
-            libjbigdec = cdll.LoadLibrary(dll)
+        with importlib.resources.files(__package__) as pkg_dir:
+            libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec-w32.dll")
 else:
-    with importlib.resources.path(__package__, "bin/libjbigdec.so") as so:
-        libjbigdec = cdll.LoadLibrary(so)
+    with importlib.resources.files(__package__) as pkg_dir:
+        libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec.so")
 
 #SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
 #SaveJbigAsBmp.restype = None
