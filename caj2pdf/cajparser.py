@@ -306,7 +306,7 @@ class CAJParser(object):
 
         import zlib
 
-        from pdfwutils import Colorspace, ImageFormat, convert_ImageList
+        from .pdfwutils import Colorspace, ImageFormat, convert_ImageList
 
         for i in range(self.page_num):
             caj.seek(self._TOC_END_OFFSET + i * 20)
@@ -327,7 +327,7 @@ class CAJParser(object):
             else:
                 caj.seek(page_data_offset)
                 output = caj.read(size_of_text_section)
-            from HNParsePage import HNParsePage
+            from .HNParsePage import HNParsePage
             page_style = (next_page_data_offset > page_data_offset)
             page_data = HNParsePage(output, page_style)
 
@@ -483,7 +483,7 @@ class CAJParser(object):
             else:
                 caj.seek(page_data_offset)
                 output = caj.read(size_of_text_section)
-            from HNParsePage import HNParsePage
+            from .HNParsePage import HNParsePage
             page_style = (next_page_data_offset > page_data_offset)
             page_data = HNParsePage(output, page_style)
             print("Text on Page %d:" % (i+1))
@@ -531,7 +531,7 @@ class CAJParser(object):
                 caj.seek(page_data_offset)
                 output = caj.read(size_of_text_section)
                 print("Page Text Header non-COMPRESSTEXT:\n", self.dump(output, GB=True), sep="")
-            from HNParsePage import HNParsePage
+            from .HNParsePage import HNParsePage
             page_style = (next_page_data_offset > page_data_offset)
             page_data = HNParsePage(output, page_style)
             print("Text:\n", page_data.texts)
