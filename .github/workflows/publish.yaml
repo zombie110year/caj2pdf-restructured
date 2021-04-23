@@ -1,0 +1,28 @@
+name: Publish caj2pdf to pypi
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  windows_pub:
+    name: Publish from Windows Server 2019
+    runs-on: windows-2019
+    steps:
+    - name: Fetch Source Code
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        fetch-depth: 1
+    - name: Setup Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install -U pip && pip install poetry
+        poetry install
+    - name: Build Package
+      run: poetry build
+    - name: Publish to pypi
+      run: poetry publish -u ${{ secrets.PYPI_USER }} -p ${{ secrets.PYPI_PASSWD }}
