@@ -6,7 +6,6 @@ on:
 
 jobs:
   test_ubuntu:
-    name: Test on Ubuntu 16
     strategy:
       matrix:
         ubuntu-version: ["ubuntu-16.04", "ubuntu-18.04", "ubuntu-20.04"]
@@ -15,6 +14,7 @@ jobs:
         # dep-lib: ["libpoppler-dev", "libjbig2dec0-dev"] # libjbig2dec in Ubuntu has lots of problems.
         src-caj: ["caj", "kdh"]
         # src-caj: ["c8", "caj", "hn", "kdh"] # only caj, kdh in sample successed
+    name: Test on ${{ matrix.ubuntu-version }}
     runs-on: ${{ matrix.ubuntu-version }}
     steps:
     - name: Fetch Source Code
