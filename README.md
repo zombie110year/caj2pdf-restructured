@@ -4,7 +4,7 @@
 
 1. 可以使用 build.py 脚本编译二进制依赖
 2. 可以在任何工作目录下使用 caj2pdf 命令，而无需移动到同一目录
-3. 如果存在任何关于 CAJ 文件格式而导致的问题，请到 [caj2pdf/caj2pdf](https://github.com/caj2pdf/caj2pdf/issues) 提交反馈。如果存在本项目无法安装、调用出错或者版本过于落后，可到 [issues](issues/) 提交反馈。
+3. 如果存在任何关于 CAJ 文件格式而导致的问题，请到 [caj2pdf/caj2pdf](https://github.com/caj2pdf/caj2pdf/issues) 提交反馈。如果存在本项目无法安装、调用出错或者版本过于落后等问题，可到 [issues](issues/) 提交反馈。
 
 ## Why
 
@@ -26,24 +26,6 @@
 - libpoppler开发包，或libjbig2dec开发包
 
 ### 安装
-
-#### Debian, Ubuntu 等 Linux
-
-```sh
-# poppler 库
-sudo apt install build-essential libpoppler-dev mupdf-tools
-pip install caj2pdf-restructured
-```
-
-或使用 [pipx](https://github.com/pipxproject/pipx)
-
-```sh
-# poppler 库
-sudo apt install build-essential libpoppler-dev mupdf-tools
-pipx install caj2pdf-restructured
-```
-
-**注意**： jbig2dev 库在 Ubuntu/Debian 上的安装存在依赖问题，因此建议只使用 poppler 库。
 
 #### ArchLinux
 
@@ -68,6 +50,27 @@ pipx install caj2pdf-restructured
 sudo pacman -S base-devel jbig2dec mupdf-tools
 LIBJBIG2DEC=1 pipx install caj2pdf-restructured
 ```
+
+#### Debian, Ubuntu 等 Linux
+
+```sh
+# poppler 库
+sudo apt install build-essential libpoppler-dev mupdf-tools
+pip install caj2pdf-restructured
+```
+
+或使用 [pipx](https://github.com/pipxproject/pipx)
+
+```sh
+# poppler 库
+sudo apt install build-essential libpoppler-dev mupdf-tools
+pipx install caj2pdf-restructured
+```
+
+**注意**：
+
+1. jbig2dec 库在 Ubuntu/Debian 上的安装存在依赖问题，因此建议只使用 poppler 库。
+2. Ubuntu 16.04 的 poppler 库版本过于落后，建议在较新的系统上安装。
 
 #### Windows
 
