@@ -16,7 +16,7 @@
 
 ### 环境和依赖
 
-- Python 3.7+ （使用了 `importlib.resources` 模块，以提供在任意目录下工作的能力）
+- Python 3.10+ （使用了 `importlib.resources` 模块，以提供在任意目录下工作的能力）
 - [PyPDF2](https://github.com/mstamy2/PyPDF2)
 - [mutool](https://mupdf.com/index.html)
 
