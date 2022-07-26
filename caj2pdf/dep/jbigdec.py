@@ -23,13 +23,16 @@ arch = platform.architecture()
 if (arch[1] == 'WindowsPE'):
     if (arch[0] == '64bit'):
         with importlib.resources.files(__package__) as pkg_dir:
-            libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec-w64.dll")
+            dllpath = (pkg_dir / "bin/libjbigdec-w64.dll").as_posix()
+            libjbigdec = cdll.LoadLibrary(dllpath)
     else:
         with importlib.resources.files(__package__) as pkg_dir:
-            libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec-w32.dll")
+            dllpath = (pkg_dir / "bin/libjbigdec-w32.dll").as_posix()
+            libjbigdec = cdll.LoadLibrary(dllpath)
 else:
     with importlib.resources.files(__package__) as pkg_dir:
-        libjbigdec = cdll.LoadLibrary(pkg_dir / "bin/libjbigdec.so")
+        dllpath = (pkg_dir / "bin/libjbigdec.so").as_posix()
+        libjbigdec = cdll.LoadLibrary(dllpath)
 
 #SaveJbigAsBmp = libjbigdec.SaveJbigAsBmp
 #SaveJbigAsBmp.restype = None
