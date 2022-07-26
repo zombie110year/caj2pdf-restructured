@@ -8,12 +8,12 @@ jobs:
   test_ubuntu:
     strategy:
       matrix:
-        ubuntu-version: ["ubuntu-16.04", "ubuntu-18.04", "ubuntu-20.04"]
+        ubuntu-version: ["ubuntu-20.04"]
         python-version: [3.7]
         dep-lib: ["libpoppler-dev"]
         # dep-lib: ["libpoppler-dev", "libjbig2dec0-dev"] # libjbig2dec in Ubuntu has lots of problems.
-        src-caj: ["caj", "kdh"]
-        # src-caj: ["c8", "caj", "hn", "kdh"] # only caj, kdh in sample successed
+        # src-caj: ["caj", "kdh"]
+        src-caj: ["c8", "caj", "hn", "kdh"] # only caj, kdh in sample successed
     name: Test on ${{ matrix.ubuntu-version }}
     runs-on: ${{ matrix.ubuntu-version }}
     steps:
@@ -47,8 +47,8 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
-        src-caj: ["caj", "kdh"]
-        # src-caj: ["c8", "caj", "hn", "kdh"], only caj, kdh in sample successed
+        # src-caj: ["caj", "kdh"]
+        src-caj: ["c8", "caj", "hn", "kdh"] # only caj, kdh in sample successed
     steps:
     - name: Fetch Source Code
       uses: actions/checkout@v2
