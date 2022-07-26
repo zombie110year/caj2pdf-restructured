@@ -3,7 +3,9 @@ import struct
 from shutil import copy
 from subprocess import STDOUT, CalledProcessError, check_output
 
-from .utils import add_outlines, fnd, fnd_all, fnd_rvrs, fnd_unuse_no
+from PyPDF2.utils import PdfReadError
+
+from .utils import add_outlines, fnd, fnd_all, fnd_rvrs, fnd_unuse_no, find_redundant_images
 
 KDH_PASSPHRASE = b"FZHMEI"
 
@@ -293,8 +295,8 @@ class CAJParser(object):
         # Add Outlines
         try:
             add_outlines(self.get_toc(), "pdf_toc.pdf", dest)
-        except errors.PdfReadError as e:
-            print("errors.PdfReadError:", str(e))
+        except PdfReadError as e:
+            print("PdfReadError:", str(e))
             copy("pdf_toc.pdf", dest)
             pass
         os.remove("pdf.tmp")

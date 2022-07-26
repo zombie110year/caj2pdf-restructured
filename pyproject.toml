@@ -26,7 +26,7 @@ build = "build.py"
 caj2pdf = "caj2pdf.cli:main"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.10"
 pypdf2 = "^1.26.0"
 
 [tool.poetry.dev-dependencies]
