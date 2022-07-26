@@ -1,4 +1,5 @@
 import os
+import struct
 import sys
 
 import PyPDF2.pdf as PDF
@@ -183,9 +184,9 @@ def build_outlines_btree(toc):
 
 def add_outlines(toc, filename, output):
     build_outlines_btree(toc)
-    pdf_out = PdfWriter()
+    pdf_out = PdfFileWriter()
     inputFile = open(filename, 'rb')
-    pdf_in = PdfReader(inputFile)
+    pdf_in = PdfFileReader(inputFile)
     for p in pdf_in.pages:
         try:
             pdf_out.add_page(p)
