@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         ubuntu-version: ["ubuntu-20.04"]
-        python-version: [3.10]
+        python-version: ["3.10"]
         dep-lib: ["libpoppler-dev"]
         # dep-lib: ["libpoppler-dev", "libjbig2dec0-dev"] # libjbig2dec in Ubuntu has lots of problems.
         # src-caj: ["caj", "kdh"]
@@ -23,7 +23,7 @@ jobs:
         lfs: true
         fetch-depth: 1
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install C++ Dependencies
@@ -46,7 +46,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python-version: [3.10]
+        python-version: ["3.10"]
         # src-caj: ["caj", "kdh"]
         src-caj: ["c8", "caj", "hn", "kdh"] # only caj, kdh in sample successed
     steps:
@@ -56,7 +56,7 @@ jobs:
         lfs: true
         fetch-depth: 1
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Python Dependencies
