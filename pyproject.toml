@@ -1,27 +1,30 @@
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
+name = "caj2pdf-restructured"
+version = "0.1.0a6"
+description = "caj2pdf 重新组织，方便打包与安装"
 authors = [
     { name = "Hin-Tak Leung", email = "htl10@users.sourceforge.net" },
     { name = "JeziL", email = "wangjinlithu@gmail.com" },
 ]
 maintainers = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
 license = { text = "GLWTPL" }
-requires-python = ">=3.10,<4.0"
-dependencies = ["pypdf2<2.0.0,>=1.26.0"]
-name = "caj2pdf-restructured"
-version = "0.1.0a5"
-description = "caj2pdf 重新组织，方便打包与安装"
+
 classifiers = [
     "Environment :: Console",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
 ]
 keywords = ["cnki", "caj", "pdf"]
+
 readme.content-type = "text/markdown"
 readme.file = "README.md"
 
-[tool.pdm]
+requires-python = ">=3.10,<4.0"
+
+[tool.pdm.dependencies]
+py = ["pypdf2<2.0.0,>=1.26.0"]
 [tool.pdm.dev-dependencies]
 dev = [
     "isort<6.0.0,>=5.8.0",
@@ -31,6 +34,7 @@ dev = [
 
 [tool.pdm.build]
 includes = ["caj2pdf"]
+excludes = ["tests"]
 setup-script = "build.py"
 run-setuptools = true
 
