@@ -2,8 +2,10 @@
 
 import argparse
 import os
+import platform
 
 from .cajparser import CAJParser
+from .install import install_context_windows
 from .utils import add_outlines
 
 
@@ -28,6 +30,8 @@ def main():
     text_extract_parser = subparsers.add_parser("text-extract", help="Parse CAJ file for debugging/development")
     text_extract_parser.add_argument("input", help="Path to the CAJ file.")
 
+    install_parser = subparsers.add_parser("install", help="install some system features, may need admin permission.")
+    install_parser.add_argument("--dry-run", help="not do actually, show the effect.", action="store_true")
     args = parser.parse_args()
 
     if args.command == "show":
@@ -68,3 +72,9 @@ def main():
     if args.command == "parse":
         caj = CAJParser(args.input)
         caj.parse()
+
+    if args.command == "install":
+        if platform.system() == "Windows":
+            install_context_windows(args.dry_run)
+        else:
+            raise NotImplementedError("Only support Windows now.")
