@@ -109,7 +109,6 @@ caj2pdf convert [input_file] -o/--output [output_file]
 ## 遇到不支持的文件类型或 Bug 时，可用 CAJViewer 打印 PDF 文件，并用这条命令为其添加大纲
 caj2pdf outlines [input_file] -o/--output [pdf_file]
 ```
-
 ### 例
 
 ```
@@ -117,6 +116,17 @@ caj2pdf show test.caj
 caj2pdf convert test.caj -o output.pdf
 caj2pdf outlines test.caj -o printed.pdf
 ```
+
+#### 右键菜单
+
+0.1.0a4 版本后，可以在 Windows 系统上使用右键菜单转换 CAJ 文件了。
+
+![](screenshot1.png)
+
+需要在命令行中调用命令 `caj2pdf install` 安装注册表，然后才能使用此功能。
+如果卸载程序，注册表 **不会被清理**，待研究 pip，看看能不能在 uninstall 之前加 HOOK。
+
+TODO: 清理注册表的功能。
 
 ### 异常输出（IMPORTANT!!!）
 
