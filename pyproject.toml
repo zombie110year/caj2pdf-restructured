@@ -1,14 +1,17 @@
-[tool.poetry]
-name = "caj2pdf-restructured"
-version = "0.1.0-alpha3"
-description = "caj2pdf 重新组织，方便打包与安装"
+[project]
+# PEP 621 project metadata
+# See https://www.python.org/dev/peps/pep-0621/
 authors = [
-    "Hin-Tak Leung <htl10@users.sourceforge.net>",
-    "JeziL <wangjinlithu@gmail.com>",
+    { name = "Hin-Tak Leung", email = "htl10@users.sourceforge.net" },
+    { name = "JeziL", email = "wangjinlithu@gmail.com" },
 ]
-maintainers = ["zombie110year <zombie110year@outlook.com>"]
-license = "GLWTPL"
-repository = "https://github.com/zombie110year/caj2pdf-restructured/"
+maintainers = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
+license = { text = "GLWTPL" }
+requires-python = ">=3.10,<4.0"
+dependencies = ["pypdf2<2.0.0,>=1.26.0"]
+name = "caj2pdf-restructured"
+version = "0.1.0a4"
+description = "caj2pdf 重新组织，方便打包与安装"
 classifiers = [
     "Environment :: Console",
     "Operating System :: Microsoft :: Windows",
@@ -17,28 +20,32 @@ classifiers = [
 keywords = ["cnki", "caj", "pdf"]
 readme = "README.md"
 
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "isort<6.0.0,>=5.8.0",
+    "setuptools<57.0.0,>=56.0.0",
+    "black<23.0.0,>=22.6.0",
+]
 
-packages = [{ include = "caj2pdf" }]
-build = "build.py"
-# exclude = ["caj2pdf/dep/bin/*.dll"]
+[tool.pdm.build]
+includes = ["caj2pdf"]
+setup-script = "build.py"
+run-setuptools = true
 
-[tool.poetry.scripts]
-caj2pdf = "caj2pdf.cli:main"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-pypdf2 = "^1.26.0"
-
-[tool.poetry.dev-dependencies]
-yapf = "^0.31.0"
-isort = "^5.8.0"
-setuptools = "^56.0.0"
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://mirrors.aliyun.com/pypi/simple"
+verify_ssl = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
 
-[[tool.poetry.source]]
-name = "aliyun"
-url = "https://mirrors.aliyun.com/pypi/simple"
-default = true
+
+[project.urls]
+repository = "https://github.com/zombie110year/caj2pdf-restructured/"
+
+[project.scripts]
+caj2pdf = "caj2pdf.cli:main"
+caj2pdf-ec = "caj2pdf.exe_convert:main"
