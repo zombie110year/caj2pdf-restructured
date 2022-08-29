@@ -10,7 +10,7 @@ license = { text = "GLWTPL" }
 requires-python = ">=3.10,<4.0"
 dependencies = ["pypdf2<2.0.0,>=1.26.0"]
 name = "caj2pdf-restructured"
-version = "0.1.0a4"
+version = "0.1.0a5"
 description = "caj2pdf 重新组织，方便打包与安装"
 classifiers = [
     "Environment :: Console",
@@ -18,7 +18,9 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 keywords = ["cnki", "caj", "pdf"]
-readme = "README.md"
+
+readme.content-type = "text/markdown;charset=utf-8"
+readme.file = "README.md"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
