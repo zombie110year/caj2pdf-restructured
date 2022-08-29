@@ -31,15 +31,15 @@ jobs:
     - name: Install Python Project with "poppler"
       if: ${{ matrix.dep-lib == 'libpoppler-dev' }}
       run: |
-        python -m pip install -U pip && pip install poetry
-        poetry install
+        python -m pip install -U pip && pip install pdm
+        pdm install
     - name: Install Python Project with "jbig2dec"
       if: ${{ matrix.dep-lib == 'libjbig2dec0-dev' }}
       run: |
-        python -m pip install -U pip && pip install poetry
-        LIBJBIG2DEC=1 poetry install
+        python -m pip install -U pip && pip install pdm
+        LIBJBIG2DEC=1 pdm install
     - name: Convert Test Caj
-      run: poetry run caj2pdf convert tests/${{ matrix.src-caj }}_src.caj -o tests/${{ matrix.src-caj }}_dst.pdf
+      run: pdm run caj2pdf convert tests/${{ matrix.src-caj }}_src.caj -o tests/${{ matrix.src-caj }}_dst.pdf
 
   test_windows:
     name: Test on Windows Server 2019
@@ -61,8 +61,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Python Dependencies
       run: |
-        python -m pip install -U pip && pip install poetry
-        poetry install
+        python -m pip install -U pip && pip install pdm
+        pdm install
     - name: Install mutool.exe
       run: |
         curl.exe -L https://mupdf.com/downloads/archive/mupdf-1.18.0-windows.zip -o mupdf.zip
@@ -70,4 +70,4 @@ jobs:
         Copy-Item mupdf-1.18.0-windows/mutool.exe C:\WINDOWS\system32\mutool.exe
       shell: pwsh
     - name: Convert Test Caj
-      run: poetry run caj2pdf convert tests\\${{ matrix.src-caj }}_src.caj -o tests\\${{ matrix.src-caj }}_dst.pdf
+      run: pdm run caj2pdf convert tests\\${{ matrix.src-caj }}_src.caj -o tests\\${{ matrix.src-caj }}_dst.pdf
