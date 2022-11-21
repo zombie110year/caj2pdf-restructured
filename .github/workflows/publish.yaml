@@ -1,8 +1,9 @@
 name: Publish caj2pdf to pypi
 on:
+  workflow_dispatch:
   push:
     branches:
-      - master
+      - 'releases/**'
 
 jobs:
   windows_pub:
@@ -23,6 +24,28 @@ jobs:
         python -m pip install -U pip && pip install pdm
         pdm install
     - name: Build Package
-      run: pdm build --no-wheel
+      run: pdm build --no-sdist
+    - name: Publish to pypi
+      run: pdm publish -u ${{ secrets.PYPI_USER }} -P ${{ secrets.PYPI_PASSWD }} --no-build
+
+  linux_pub:
+    name: Publish from Ubuntu, no JBIG2DEC
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetch Source Code
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        fetch-depth: 1
+    - name: Setup Python 3
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install -U pip && pip install pdm
+        pdm install -d
+    - name: Build Package
+      run: pdm build
     - name: Publish to pypi
       run: pdm publish -u ${{ secrets.PYPI_USER }} -P ${{ secrets.PYPI_PASSWD }} --no-build
