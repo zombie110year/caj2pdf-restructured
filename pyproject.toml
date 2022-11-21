@@ -1,6 +1,6 @@
 [project]
 name = "caj2pdf-restructured"
-version = "0.1.0a6"
+dynamic = ["version"]
 description = "caj2pdf 项目的重新组织，方便打包与安装"
 authors = [
     { name = "Hin-Tak Leung", email = "htl10@users.sourceforge.net" },
@@ -33,6 +33,8 @@ caj2pdf-ec = "caj2pdf.exe_convert:main"
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
+[tool.pdm]
+version = { source = "file", path = "caj2pdf/version.py" }
 
 [tool.pdm.build]
 excludes = ["tests/**"]
@@ -44,8 +46,4 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "black>=22.10.0",
-    "isort>=5.10.1",
-    "flake8>=5.0.4",
-]
+dev = ["black>=22.10.0", "isort>=5.10.1", "flake8>=5.0.4"]

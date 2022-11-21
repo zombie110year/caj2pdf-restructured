@@ -7,10 +7,12 @@ import platform
 from .cajparser import CAJParser
 from .install import install_context_windows
 from .utils import add_outlines
+from .version import __version__
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="caj2pdf")
+    parser.add_argument("--version", action="version", version=f"%(prog)s v{__version__}")
     subparsers = parser.add_subparsers(help="commands", dest="command")
 
     show_parser = subparsers.add_parser("show", help="Show the information of the CAJ file.")
