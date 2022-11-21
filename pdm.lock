@@ -91,6 +91,12 @@ requires_python = ">=3.6"
 summary = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
 
 [[package]]
+name = "setuptools"
+version = "65.6.0"
+requires_python = ">=3.7"
+summary = "Easily download, build, install, upgrade, and uninstall Python packages"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 requires_python = ">=3.7"
@@ -98,7 +104,7 @@ summary = "A lil' TOML parser"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:621f7a7fbeab780601ad6951c740687107a1e6790e16e1dba3264bc203cd50c8"
+content_hash = "sha256:1831b76c8f8fb125c8f108835e9163ec885af94991206055c9aeba6c98c5468e"
 
 [metadata.files]
 "black 22.10.0" = [
@@ -171,6 +177,10 @@ content_hash = "sha256:621f7a7fbeab780601ad6951c740687107a1e6790e16e1dba3264bc20
 "pypdf2 2.2.0" = [
     {url = "https://mirrors.aliyun.com/pypi/packages/3f/1e/9204070476be4b6f598e4c042590385341c6019c862cc73892f31f17b45c/PyPDF2-2.2.0-py3-none-any.whl", hash = "sha256:6167a965a2b44f6e763f0bb2028810898bace2caae5ddd5040a8b57e1c6aaa5a"},
     {url = "https://mirrors.aliyun.com/pypi/packages/b8/f4/8bbb7a9fa8b6bf7eb55c0d14f31396d2b7812c270454ab02e582c281ad68/PyPDF2-2.2.0.tar.gz", hash = "sha256:12a289d7be1cac0b066b05854ebc40dfaaeea31244ec45ea02682e51deefb7e8"},
+]
+"setuptools 65.6.0" = [
+    {url = "https://mirrors.aliyun.com/pypi/packages/09/b6/33512596fb92ba68f7c45e9bbc5e1bb9b24fbd941f9aece250fb420c2f5c/setuptools-65.6.0.tar.gz", hash = "sha256:d1eebf881c6114e51df1664bc2c9133d022f78d12d5f4f665b9191f084e2862d"},
+    {url = "https://mirrors.aliyun.com/pypi/packages/1f/97/c03668380f278f1f8b0486d820c142cf224bba1bd78416e1797b52e0e81c/setuptools-65.6.0-py3-none-any.whl", hash = "sha256:6211d2f5eddad8757bd0484923ca7c0a6302ebc4ab32ea5e94357176e0ca0840"},
 ]
 "tomli 2.0.1" = [
     {url = "https://mirrors.aliyun.com/pypi/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},

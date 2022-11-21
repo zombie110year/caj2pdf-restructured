@@ -5,7 +5,7 @@ from subprocess import PIPE, run
 from sys import exit, stderr
 
 
-def build(src: str, dst: str):
+def build(setup_kwargs):
     """编译二进制依赖
 
     读取环境变量 `LIBJBIG2DEC` 选择依赖库：
@@ -15,8 +15,8 @@ def build(src: str, dst: str):
 
     note: 使用 pdm build <https://pdm.fming.dev/latest/pyproject/build/#custom-file-generation>
     """
-    src = Path(src)
-    dst = Path(dst)
+    src = Path()
+    dst = Path("build")
     dlls = src / "dlls"
     s_dep = src / "caj2pdf" / "dep"
     o_bin = dst / "caj2pdf" / "dep" / "bin"
