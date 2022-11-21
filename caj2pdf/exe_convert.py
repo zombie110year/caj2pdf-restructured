@@ -13,14 +13,14 @@ from .exceptions import Caj2PdfException
 def main():
     try:
         app()
-    except Exception as e:
+    except Exception:
         pass
 
 
 def app():
     try:
         cajfilepath_str = sys.argv[1]
-    except IndexError as e:
+    except IndexError:
         raise Caj2PdfException(f"找不到caj文件，输入参数为：{sys.argv!r}")
 
     cajfilepath = pathlib.Path(cajfilepath_str)

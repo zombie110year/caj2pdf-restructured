@@ -2,7 +2,7 @@ import os
 import struct
 import sys
 
-import PyPDF2.pdf as PDF
+import PyPDF2.generic as PDF
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 
@@ -185,7 +185,7 @@ def build_outlines_btree(toc):
 def add_outlines(toc, filename, output):
     build_outlines_btree(toc)
     pdf_out = PdfFileWriter()
-    inputFile = open(filename, 'rb')
+    inputFile = open(filename, "rb")
     pdf_in = PdfFileReader(inputFile)
     for p in pdf_in.pages:
         try:
@@ -193,37 +193,45 @@ def add_outlines(toc, filename, output):
         except AttributeError:
             pdf_out.addPage(p)
     toc_num = len(toc)
-    if (toc_num == 0): # Just copy if toc empty
+    if toc_num == 0:  # Just copy if toc empty
         outputFile = open(output, "wb")
         pdf_out.write(outputFile)
         inputFile.close()
         outputFile.close()
         return
     idoix = len(pdf_out._objects) + 1
-    idorefs = [PDF.IndirectObject(x + idoix, 0, pdf_out)
-               for x in range(toc_num + 1)]
+    idorefs = [PDF.IndirectObject(x + idoix, 0, pdf_out) for x in range(toc_num + 1)]
     ol = PDF.DictionaryObject()
-    ol.update({
-        PDF.NameObject("/Type"): PDF.NameObject("/Outlines"),
-        PDF.NameObject("/First"): idorefs[1],
-        PDF.NameObject("/Last"): idorefs[-1],
-        PDF.NameObject("/Count"): PDF.NumberObject(toc_num)
-    })
+    ol.update(
+        {
+            PDF.NameObject("/Type"): PDF.NameObject("/Outlines"),
+            PDF.NameObject("/First"): idorefs[1],
+            PDF.NameObject("/Last"): idorefs[-1],
+            PDF.NameObject("/Count"): PDF.NumberObject(toc_num),
+        }
+    )
     olitems = []
     for t in toc:
         oli = PDF.DictionaryObject()
-        oli.update({
-            PDF.NameObject("/Title"): PDF.TextStringObject(t["title"].decode("utf-8")),
-            PDF.NameObject("/Dest"): make_dest(pdf_out, t["page"])
-        })
-        opt_keys = {"real_parent": "/Parent", "prev": "/Prev",
-                    "next": "/Next", "first": "/First", "last": "/Last"}
+        oli.update(
+            {
+                PDF.NameObject("/Title"): PDF.TextStringObject(
+                    t["title"].decode("utf-8")
+                ),
+                PDF.NameObject("/Dest"): make_dest(pdf_out, t["page"]),
+            }
+        )
+        opt_keys = {
+            "real_parent": "/Parent",
+            "prev": "/Prev",
+            "next": "/Next",
+            "first": "/First",
+            "last": "/Last",
+        }
         for k, v in opt_keys.items():
             n = getattr(t["node"], k)()
             if n is not None:
-                oli.update({
-                    PDF.NameObject(v): idorefs[n.index]
-                })
+                oli.update({PDF.NameObject(v): idorefs[n.index]})
         olitems.append(oli)
     try:
         pdf_out._add_object(ol)
@@ -234,31 +242,30 @@ def add_outlines(toc, filename, output):
             pdf_out._add_object(i)
         except AttributeError:
             pdf_out._addObject(i)
-    pdf_out._root_object.update({
-        PDF.NameObject("/Outlines"): idorefs[0]
-    })
+    pdf_out._root_object.update({PDF.NameObject("/Outlines"): idorefs[0]})
     outputFile = open(output, "wb")
     pdf_out.write(outputFile)
     inputFile.close()
     outputFile.close()
+
 
 # See if the page is N * N images, N images written N times,
 # by checking image sizes and within 1 < N <= 10.
 # Return True and N if that's the case.
 def find_redundant_images(caj, initial_offset, images_per_page):
     sqrts = {
-        4  : 2,
-        9  : 3,
-        16 : 4,
-        25 : 5,
-        36 : 6,
-        49 : 7,
-        64 : 8,
-        81 : 9,
-        100 : 10,
+        4: 2,
+        9: 3,
+        16: 4,
+        25: 5,
+        36: 6,
+        49: 7,
+        64: 8,
+        81: 9,
+        100: 10,
     }
 
-    if (not (images_per_page in sqrts.keys())):
+    if not (images_per_page in sqrts.keys()):
         return (False, images_per_page)
     stride = sqrts[images_per_page]
     sizes = []
@@ -266,8 +273,10 @@ def find_redundant_images(caj, initial_offset, images_per_page):
     for j in range(images_per_page):
         caj.seek(current_offset)
         read32 = caj.read(32)
-        [image_type_enum, offset_to_image_data, size_of_image_data] = struct.unpack("iii", read32[0:12])
-        if ((j >= stride) and (size_of_image_data != sizes[j-stride])):
+        [image_type_enum, offset_to_image_data, size_of_image_data] = struct.unpack(
+            "iii", read32[0:12]
+        )
+        if (j >= stride) and (size_of_image_data != sizes[j - stride]):
             return (False, images_per_page)
         sizes.append(size_of_image_data)
         current_offset = offset_to_image_data + size_of_image_data

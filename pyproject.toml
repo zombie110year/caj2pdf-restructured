@@ -1,14 +1,16 @@
 [project]
-# PEP 621 project metadata
-# See https://www.python.org/dev/peps/pep-0621/
 name = "caj2pdf-restructured"
 version = "0.1.0a6"
-description = "caj2pdf 重新组织，方便打包与安装"
+description = "caj2pdf 项目的重新组织，方便打包与安装"
 authors = [
     { name = "Hin-Tak Leung", email = "htl10@users.sourceforge.net" },
     { name = "JeziL", email = "wangjinlithu@gmail.com" },
 ]
 maintainers = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
+dependencies = ["imagesize==1.3.0", "PyPDF2==2.2.0"]
+requires-python = ">=3.10"
+readme.content-type = "text/markdown"
+readme.file = "README.md"
 license = { text = "GLWTPL" }
 
 classifiers = [
@@ -18,39 +20,32 @@ classifiers = [
 ]
 keywords = ["cnki", "caj", "pdf"]
 
-readme.content-type = "text/markdown"
-readme.file = "README.md"
-
-requires-python = ">=3.10,<4.0"
-
-[tool.pdm.dependencies]
-py = ["pypdf2<2.0.0,>=1.26.0"]
-[tool.pdm.dev-dependencies]
-dev = [
-    "isort<6.0.0,>=5.8.0",
-    "setuptools<57.0.0,>=56.0.0",
-    "black<23.0.0,>=22.6.0",
-]
-
-[tool.pdm.build]
-includes = ["caj2pdf"]
-excludes = ["tests"]
-setup-script = "build.py"
-run-setuptools = true
-
-[[tool.pdm.source]]
-name = "pypi"
-url = "https://mirrors.aliyun.com/pypi/simple"
-verify_ssl = true
-
-[build-system]
-requires = ["pdm-pep517>=1.0.0"]
-build-backend = "pdm.pep517.api"
-
-
 [project.urls]
 repository = "https://github.com/zombie110year/caj2pdf-restructured/"
 
 [project.scripts]
 caj2pdf = "caj2pdf.cli:main"
 caj2pdf-ec = "caj2pdf.exe_convert:main"
+
+
+[project.optional-dependencies]
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+
+[tool.pdm.build]
+excludes = ["tests/**"]
+setup-script = "build.py"
+
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://mirrors.aliyun.com/pypi/simple"
+verify_ssl = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=22.10.0",
+    "isort>=5.10.1",
+    "flake8>=5.0.4",
+]

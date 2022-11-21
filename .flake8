@@ -1,0 +1,9 @@
+[flake8]
+max-line-length=120
+max-doc-length=120
+ignore=
+    # : 前可以有空格，因为 [expr : expr]
+    E203,
+    # 双元运算符放在行首，为了让部分比较长的算术看起来像竖式
+    W503,
+exclude=caj2pdf/pdfwutils.py

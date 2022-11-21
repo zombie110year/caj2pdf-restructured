@@ -14,10 +14,10 @@ def install_context_windows(dry_run: bool):
         regedit = f"""\
             Windows Registry Editor Version 5.00
 
-            [HKEY_CLASSES_ROOT\.caj\shell\caj2pdf]
+            [HKEY_CLASSES_ROOT\\.caj\\shell\\caj2pdf]
             @="{description}"
 
-            [HKEY_CLASSES_ROOT\.caj\shell\caj2pdf\command]
+            [HKEY_CLASSES_ROOT\\.caj\\shell\\caj2pdf\\command]
             @="{command}"
             """
         print(regedit, file=sys.stderr)
