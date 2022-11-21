@@ -15,18 +15,23 @@ def build(src: str, dst: str):
 
     note: 使用 pdm build <https://pdm.fming.dev/latest/pyproject/build/#custom-file-generation>
     """
-    root = Path(src)
-    dlls = root / "dlls"
-    dep = root / "caj2pdf" / "dep"
+    src = Path(src)
+    dst = Path(dst)
+    dlls = src / "dlls"
+    s_dep = src / "caj2pdf" / "dep"
+    o_bin = dst / "caj2pdf" / "dep" / "bin"
+    if not o_bin.exists():
+        o_bin.mkdir(parents=True)
+
     # input
-    decode_jbig2data_x_cc = (dep / "decode_jbig2data_x.cc").as_posix()
-    decode_jbig2data_cc = (dep / "decode_jbig2data.cc").as_posix()
-    jbigdec_cc = (dep / "jbigdec.cc").as_posix()
-    JBigDecode_cc = (dep / "JBigDecode.cc").as_posix()
+    decode_jbig2data_x_cc = (s_dep / "decode_jbig2data_x.cc").as_posix()
+    decode_jbig2data_cc = (s_dep / "decode_jbig2data.cc").as_posix()
+    jbigdec_cc = (s_dep / "jbigdec.cc").as_posix()
+    JBigDecode_cc = (s_dep / "JBigDecode.cc").as_posix()
 
     # output
-    libjbigdec_so = (dep / "bin" / "libjbigdec.so").as_posix()
-    libjbig2codec_so = (dep / "bin" / "libjbig2codec.so").as_posix()
+    libjbigdec_so = (o_bin / "libjbigdec.so").as_posix()
+    libjbig2codec_so = (o_bin / "libjbig2codec.so").as_posix()
 
     if system() == "Linux":
         if getenv("LIBJBIG2DEC", "0") == "0":
@@ -54,18 +59,28 @@ def build(src: str, dst: str):
         s_libjbig2codec_32dll = dlls / "libjbig2codec-w32.dll"
         s_libjbigdec_64dll = dlls / "libjbigdec-w64.dll"
         s_libjbig2codec_64dll = dlls / "libjbig2codec-w64.dll"
-        t_libjbigdec_32dll = (dep / "bin" / "libjbigdec-w32.dll").as_posix()
-        t_libjbig2codec_32dll = (dep / "bin" / "libjbig2codec-w32.dll").as_posix()
-        t_libjbigdec_64dll = (dep / "bin" / "libjbigdec-w64.dll").as_posix()
-        t_libjbig2codec_64dll = (dep / "bin" / "libjbig2codec-w64.dll").as_posix()
-        t_libjbigdec_32dll.hardlink_to(s_libjbigdec_32dll)
-        t_libjbig2codec_32dll.hardlink_to(s_libjbig2codec_32dll)
-        t_libjbigdec_64dll.hardlink_to(s_libjbigdec_64dll)
-        t_libjbig2codec_64dll.hardlink_to(s_libjbig2codec_64dll)
-        print("BUILD: {}".format(t_libjbigdec_32dll))
-        print("BUILD: {}".format(t_libjbigdec_64dll))
-        print("BUILD: {}".format(t_libjbig2codec_32dll))
-        print("BUILD: {}".format(t_libjbig2codec_64dll))
+        t_libjbigdec_32dll = (o_bin / "libjbigdec-w32.dll")
+        t_libjbig2codec_32dll = (o_bin / "libjbig2codec-w32.dll")
+        t_libjbigdec_64dll = (o_bin / "libjbigdec-w64.dll")
+        t_libjbig2codec_64dll = (o_bin / "libjbig2codec-w64.dll")
+        sources = [
+            s_libjbigdec_32dll,
+            s_libjbig2codec_32dll,
+            s_libjbigdec_64dll,
+            s_libjbig2codec_64dll,
+        ]
+        targets = [
+            t_libjbigdec_32dll,
+            t_libjbig2codec_32dll,
+            t_libjbigdec_64dll,
+            t_libjbig2codec_64dll,
+        ]
+        for t, s in zip(targets, sources):
+            if not t.exists():
+                t.hardlink_to(s)
+                print(f"BUILD: {t.as_posix()}")
+            else:
+                print(f"EXIST: {t.as_posix()}")
 
 
 def build_poppler(

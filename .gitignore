@@ -1,4 +1,5 @@
 .pdm.toml
+/caj2pdf/dep/bin/*.dll
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
