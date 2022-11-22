@@ -1,4 +1,4 @@
-name: Publish caj2pdf to pypi
+name: Upload caj2pdf to GitHub Actions Artifacts
 on:
   workflow_dispatch:
   push:
@@ -25,8 +25,10 @@ jobs:
         pdm install
     - name: Build Package
       run: pdm build --no-sdist
-    - name: Publish to pypi
-      run: pdm publish -u ${{ secrets.PYPI_USER }} -P ${{ secrets.PYPI_PASSWD }} --no-build
+    - name: Upload to github action artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.whl
 
   linux_pub:
     name: Publish from Ubuntu, no JBIG2DEC
@@ -47,5 +49,12 @@ jobs:
         pdm install -d
     - name: Build Package
       run: pdm build
-    - name: Publish to pypi
-      run: pdm publish -u ${{ secrets.PYPI_USER }} -P ${{ secrets.PYPI_PASSWD }} --no-build
+    - name: Get Glibc version
+      run: ldd --version > dist/ldd.version.txt
+    - name: Upload to github action artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: |
+          dist/*.whl
+          dist/*.tar.gz
+          dist/ldd.version.txt
