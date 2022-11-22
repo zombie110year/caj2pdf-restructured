@@ -69,7 +69,7 @@ pipx install caj2pdf-restructured
 
 **注意**：
 
-1. jbig2dec 库在 Ubuntu/Debian 上的安装存在依赖问题，因此建议只使用 poppler 库。
+1. jbig2dec 库在 Ubuntu/Debian 上的安装存在依赖问题，但是 poppler 库可能无法解析 HN 文件，建议能配置好依赖的尽量使用 `LIBJBIG2DEC=1` 进行构建。
 2. Ubuntu 16.04 的 poppler 库版本过于落后，建议在较新的系统上安装。
 
 #### Windows
